@@ -81,3 +81,12 @@
     opacity: 1;
     transition: all 0.5s ease;
 }
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(240, 240, 240);
+    text-align: center;
+}

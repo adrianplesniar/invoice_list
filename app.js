@@ -12,24 +12,7 @@ class Invoice {
 // UI Class: Handle UI tasks
 class UI {
     static displayInvoices() {
-        const StoredInvoices = [
-            {
-                invoiceNumber: "2342342",
-                companyName: "Polmax",
-                tin: "439573478",
-                invoiceDate: "2020-12-09",
-                dueDate: "2007-05-11"
-            },
-            {
-                invoiceNumber: "3425432",
-                companyName: "Januszex",
-                tin: "54356346",
-                invoiceDate: "2018-10-23",
-                dueDate: "2005-01-15"
-            }
-        ];
-
-        const invoices = StoredInvoices;
+        const invoices = Store.getInvoices();
 
         invoices.forEach(invoice => UI.addInvoiceToList(invoice));
     }
@@ -57,6 +40,17 @@ class UI {
         }
     }
 
+    static showAlert(message, className) {
+        const div = document.createElement('div');
+        div.className = `alert alert-${className}`;
+        div.appendChild(document.createTextNode(message));
+        const container = document.querySelector('.container');
+        const form = document.querySelector('#invoice-form');
+        container.insertBefore(div, form);
+        // Vanish in 5 seconds
+        setTimeout(() => document.querySelector('.alert').remove(), 5000);
+    }
+
     static clearFields() {
         document.querySelector('#invoice-number').value = "";
         document.querySelector('#company-name').value = "";
@@ -67,6 +61,36 @@ class UI {
 }
 
 // Store Class: Handles Storage
+class Store {
+    static getInvoices() {
+        let invoices;
+        if(localStorage.getItem('invoices') === null) {
+            invoices = [];
+        } else {
+            invoices = JSON.parse(localStorage.getItem('invoices'));
+        }
+
+        return invoices;
+    }
+    static addInvoice(invoice) {
+        const invoices = Store.getInvoices();
+
+        invoices.push(invoice);
+
+        localStorage.setItem('invoices', JSON.stringify(invoices));
+    }
+    static removeInvoice(invoiceNumber) {
+        const invoices = Store.getInvoices();
+
+        invoices.forEach((invoice, index) => {
+            if(invoice.invoiceNumber === invoiceNumber) {
+                invoices.splice(index, 1);
+            }
+        });
+
+        localStorage.setItem('invoices', JSON.stringify(invoices));
+    }
+}
 
 // Event: Display Invoices
 document.addEventListener('DOMContentLoaded', UI.displayInvoices);
@@ -75,7 +99,6 @@ document.addEventListener('DOMContentLoaded', UI.displayInvoices);
 document.querySelector('#invoice-form').addEventListener('submit', (e) => {
     // Prevent actual submit
     e.preventDefault();
-
     // Get form values
     const invoiceNumber = document.querySelector('#invoice-number').value;
     const companyName = document.querySelector('#company-name').value;
@@ -83,16 +106,37 @@ document.querySelector('#invoice-form').addEventListener('submit', (e) => {
     const invoiceDate = document.querySelector('#invoice-date').value;
     const dueDate = document.querySelector('#due-date').value;
 
-    const invoice = new Invoice(invoiceNumber, companyName, tin, invoiceDate, dueDate);
+    // Validate
+    if(invoiceNumber === '' || companyName === '' || tin === '' || invoiceDate === '' || dueDate === '') {
+        UI.showAlert('Please fill in all fields', 'danger');
+    } else if(Date.parse(dueDate) < Date.parse(invoiceDate)) {
+        UI.showAlert("Invoice date can't be greater than due date", 'danger');
+    } else {
+        // Instatiate Invoice
+        const invoice = new Invoice(invoiceNumber, companyName, tin, invoiceDate, dueDate);
+    
+        // Add Invoice to UI
+        UI.addInvoiceToList(invoice);
 
-    // Add Invoice to UI
-    UI.addInvoiceToList(invoice);
+        // Add invoice to store
+        Store.addInvoice(invoice);
 
-    // Clear fields
-    UI.clearFields();
+        // Show success message
+        UI.showAlert('Invoice successfuly added', 'success');
+    
+        // Clear fields
+        UI.clearFields();
+    }
 });
 
 // Event: Remove an Invoice
 document.querySelector("#invoice-list").addEventListener('click', (e) => {
+    // Delete invoice from UI
     UI.deleteInvoice(e.target);
+
+    // Delete invoice from Store
+    Store.removeInvoice(e.target.parentElement.parentElement.children[0].textContent);
+
+    // Show success message
+    UI.showAlert('Invoice removed', 'success');
 });

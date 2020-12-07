@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css">
     <title>Invoice List</title>
 </head>
@@ -15,31 +14,31 @@
         </h1>
             <form id="invoice-form">
                 <div class="form-group">
-                    <input type="text" id="invoice-number" required>
+                    <input type="text" id="invoice-number" autocomplete="off" required>
                     <label for="invoice-number" class="label-name">
                         <span class="content-name">Invoice number</span>
                     </label>
                 </div>
                 <div class="form-group">
-                    <input type="text" id="company-name" required>
+                    <input type="text" id="company-name" autocomplete="off" required>
                     <label for="company-name" class="label-name">
                         <span class="content-name">Company name</span>
                     </label>
                 </div>
                 <div class="form-group">
-                    <input type="text" id="tin" required>
+                    <input type="text" id="tin" autocomplete="off" required>
                     <label for="tin" class="label-name">
                         <span class="content-name">Taxpayer identification number</span>
                     </label>
                 </div>
                 <div class="form-group">
-                    <input type="date" id="invoice-date" required>
+                    <input type="date" id="invoice-date" autocomplete="off" required>
                     <label for="invoice-date" class="label-name">
                         <span class="content-name">Invoice date</span>
                     </label>
                 </div>
                 <div class="form-group">
-                    <input type="date" id="due-date" required>
+                    <input type="date" id="due-date" autocomplete="off" required>
                     <label for="due-date" class="label-name">
                         <span class="content-name">Due date</span>
                     </label>
@@ -60,6 +59,10 @@
                 <tbody id="invoice-list"></tbody>
             </table>
       </div>
+
+    <div class="footer">
+        <a target="_blank" href="https://icons8.com/icons/set/ledger">Ledger icon</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+    </div>
 
     <script src="app.js"></script>
 </body>
