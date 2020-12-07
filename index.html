@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css">
+    <title>Invoice List</title>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="display-4 text-center">
+            <img src="img/icons8-ledger-96.png"> My<span class="title-invoice">Invoice</span>List
+        </h1>
+            <form id="invoice-form">
+                <div class="form-group">
+                    <input type="text" id="invoice-number" required>
+                    <label for="invoice-number" class="label-name">
+                        <span class="content-name">Invoice number</span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="company-name" required>
+                    <label for="company-name" class="label-name">
+                        <span class="content-name">Company name</span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="tin" required>
+                    <label for="tin" class="label-name">
+                        <span class="content-name">Taxpayer identification number</span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input type="date" id="invoice-date" required>
+                    <label for="invoice-date" class="label-name">
+                        <span class="content-name">Invoice date</span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input type="date" id="due-date" required>
+                    <label for="due-date" class="label-name">
+                        <span class="content-name">Due date</span>
+                    </label>
+                </div>
+                <input id="btn-submit" type="submit" value="Add Invoice" class="btn btn-primary btn-block">
+            </form>
+            <table class="table table-striped mt-5">
+                <thead>
+                <tr>
+                    <th>Invoice number</th>
+                    <th>Company name</th>
+                    <th>Taxpayer identification number</th>
+                    <th>Invoice date</th>
+                    <th>Due date</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="invoice-list"></tbody>
+            </table>
+      </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
